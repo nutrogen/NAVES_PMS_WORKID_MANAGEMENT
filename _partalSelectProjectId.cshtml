@@ -1,0 +1,17 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<ejs-autocomplete id="acProjectId" placeholder="Search Project ID..." dataSource="@ViewBag.ProjectId" autofill="true" filterType="Contains"
+                  cssClass="inputable"
+                  highlight="true"
+                  suggestionCount="20"
+                  minLength="3"
+                  popupHeight="300px"
+                  popupWidth="600px"
+                  headerTemplate="@Html.Raw("<div class=\"row m-2 p-1 fs-5 border-bottom border-2 bg-create-title\"><div class=\"col-4\">Project ID</div><div class=\"col-3\">Project Title</div><div class=\"col-3\">Project Type</div></div>")"
+                  itemTemplate="@Html.Raw("<div class=\"row border-bottom border-1\"><div class=\"col-4\">${PROJECT_ID}</div><div class=\"col-3\">${PROJECT_TITLE}</div><div class=\"col-3\">${PROJECT_TYPE}</div></div>")"
+                  change="OnAutoComplateProjectIdChange">
+    <e-autocomplete-fields value="PROJECT_ID"></e-autocomplete-fields>
+</ejs-autocomplete>

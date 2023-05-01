@@ -1,0 +1,287 @@
+﻿@using NavesPortalforWebWithCoreMvc.Common;
+@using Syncfusion.EJ2
+@using Syncfusion.EJ2.Notifications;
+@using Newtonsoft.Json;
+@model NavesPortalforWebWithCoreMvc.Models.TNAV_WORK
+
+@{
+    ViewBag.PageTitle = "PMS > Work ID Management";
+    ViewBag.PlatformName = "PMS";
+    ViewBag.MenuName = "Work ID Management";
+    ViewBag.FunctionName = "New";
+}
+
+@section ContentsSection{
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="ps-2 pageContentTitle">
+            <h3>@ViewBag.MenuName</h3>
+        </div>
+        <div></div>
+    </div>
+
+    <form asp-controller="PmsWorkIdManagement" asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Work ID</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" id="txtWorkID" cssClass="e-outline text-left" placeholder="Auto generattion Work ID" disabled></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Project ID</label>
+            <div class="col-sm-4">
+                <ejs-autocomplete id="acProjectId" dataSource="@ViewBag.ProjectId" ejs-for="PROJECT_ID" placeholder="Search Project ID, Project Name and Project Type, ..." autofill="true"
+                              filterType="Contains"
+                              filtering="filteringForProjectId"
+                              cssClass="inputable"
+                              highlight="true"
+                              suggestionCount="20"
+                              minLength="2"
+                              popupHeight="300px"
+                              popupWidth="600px"
+                              required
+                              headerTemplate="@Html.Raw("<div class=\"row m-2 p-1 fs-5 border-bottom border-2 bg-create-title\"><div class=\"col-2 text-center\">Project ID</div><div class=\"col-7 text-center\">Project Title</div><div class=\"col-3 text-center\">Project Type</div></div>")"
+                              itemTemplate="@Html.Raw("<div class=\"row p-1 border-bottom border-1\"><div class=\"col-2 text-center\">${PROJECT_ID}</div><div class=\"col-7\">${PROJECT_TITLE}</div><div class=\"col-3 text-center\">${PROJECT_TYPE}</div></div>")"
+                              change="OnAutoComplateProjectIdChange">
+                    <e-autocomplete-fields value="PROJECT_ID"></e-autocomplete-fields>
+                </ejs-autocomplete>
+                <ejs-textbox type="text" ejs-for="PROJECT_IDX" id="txtProjectIdx" cssClass="e-outline text-left d-none"></ejs-textbox>
+                <script>
+                    function filteringForProjectId(e) {
+                        var predicate = new ej.data.Predicate('PROJECT_ID', 'contains', e.text, true);
+                        predicate = predicate.or('PROJECT_TITLE', 'contains', e.text);
+                        predicate = predicate.or('PROJECT_TYPE', 'contains', e.text);
+                        var query = new ej.data.Query();
+
+                        query = (e.text !== '') ? query.where(predicate) : query;
+                        e.updateData(@Html.Raw(JsonConvert.SerializeObject(ViewBag.ProjectId)), query);
+                    }
+                </script>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Department</label>
+            <div class="col-sm-4 pe-0">
+                <ejs-dropdownlist id="ddlDepartment" ejs-for="DEPARTMENT" dataSource="@CommonSettingData.GetDepartmentList()" cssClass="inputable" placeholder="Select department..." required>
+                    <e-dropdownlist-fields text="Text" value="Value"></e-dropdownlist-fields>
+                </ejs-dropdownlist>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Project Title</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtProjectTitle" cssClass="e-outline text-left" placeholder="Search Project ID..."></ejs-textbox>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Surveyor(PM)</label>
+            <div class="col-sm-4 pe-0">
+                <ejs-textbox type="text" readonly id="txtSurveyorPM" cssClass="e-outline text-left" placeholder="Search Project ID..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Term of Contract</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtTermOfContract" cssClass="e-outline text-left" placeholder="Search Project ID..."></ejs-textbox>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Project Type</label>
+            <div class="col-sm-4 pe-0">
+                <ejs-textbox type="text" readonly id="txtProjectType" cssClass="e-outline text-left" placeholder="Search Project ID..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Project Category</label>
+            <div class="col-sm-4">
+                <ejs-dropdownlist id="dlProjectCagegory" dataSource="@ViewBag.ProjectCategory" ejs-for="PROJECT_CATEGORY" enabled="false" cssClass="" placeholder="Search Project ID..." required>
+                    <e-dropdownlist-fields text="Text" value="Value"></e-dropdownlist-fields>
+                </ejs-dropdownlist>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Contract Amount</label>
+            <div class="col-sm-4 pe-0">
+                <ejs-numerictextbox readonly id="txtContractAmount" min="0" format="###,####,####,####" min="0" cssClass="e-outline text-left" placeholder="Project Total Amount..."></ejs-numerictextbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom mt-3">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Job ID</label>
+            <div class="col-sm-4">
+                <ejs-autocomplete id="acJobId" dataSource="@ViewBag.JobId" ejs-for="JOB_ID" placeholder="Search JOB ID, Vessel Name and Hull No. ..." autofill="true"
+                              filtering="filteringForJobId"
+                              filterType="Contains"
+                              cssClass="inputable"
+                              highlight="true"
+                              suggestionCount="30"
+                              minLength="2"
+                              popupHeight="300px"
+                              popupWidth="600px"
+                              required
+                              headerTemplate="@Html.Raw("<div class=\"row m-2 p-1 fs-5 border-bottom border-2 bg-create-title\"><div class=\"col-3\">Job ID</div><div class=\"col-7\">Vessel Name</div><div class=\"col-2\">Hull No.</div></div>")"
+                              itemTemplate="@Html.Raw("<div class=\"row border-bottom border-1 p-1\"><div class=\"col-3\">${JOB_ID}</div><div class=\"col-7\">${VESSEL_NAME}</div><div class=\"col-2\">${HULL_NO}</div></div>")"
+                              change="OnAutoComplateJobIdChange">
+                    <e-autocomplete-fields value="JOB_ID"></e-autocomplete-fields>
+                </ejs-autocomplete>
+                <ejs-textbox type="text" id="txtJobIdx" ejs-for="JOB_IDX" cssClass="e-outline text-left d-none"></ejs-textbox>
+                <script>
+                    function filteringForJobId(e) {
+                        var predicate = new ej.data.Predicate('JOB_ID', 'contains', e.text, true);
+                        predicate = predicate.or('VESSEL_NAME', 'contains', e.text);
+                        predicate = predicate.or('HULL_NO', 'contains', e.text);
+                        var query = new ej.data.Query();
+
+                        query = (e.text !== '') ? query.where(predicate) : query;
+                        e.updateData(@Html.Raw(JsonConvert.SerializeObject(ViewBag.JobId)), query);
+                    }
+                </script>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Vessel Type</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtVesselTypeName" cssClass="e-outline text-left" placeholder="Search Job ID..."></ejs-textbox>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Job Category</label>
+            <div class="col-sm-4 pe-0">
+                <ejs-textbox type="text" readonly id="txtJobCategoryName" cssClass="e-outline text-left" placeholder="Search Job ID..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Yard/Maker</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtYardMakerName" cssClass="e-outline text-left" placeholder="Search Job ID..."></ejs-textbox>
+                @*<ejs-textbox type="text" id="txtYardMaker" cssClass="e-outline text-left"></ejs-textbox>*@
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Vessel Name</label>
+            <div class="col-sm-4 pe-0">
+                <ejs-textbox type="text" readonly id="txtVesselName" cssClass="e-outline text-left" placeholder="Search Job ID..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Client</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtClientName" cssClass="e-outline text-left" placeholder="Search Job ID..."></ejs-textbox>
+                @*<ejs-textbox type="text" id="txtClient" cssClass="e-outline text-left"></ejs-textbox>*@
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Hull No.</label>
+            <div class="col-sm-4 pe-0">
+                <ejs-textbox type="text" readonly id="txtHullNo" cssClass="e-outline text-left" placeholder="Search Job ID..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Subject</label>
+            <div class="col-sm-10 pe-0">
+                <ejs-textbox type="text" id="txtDescription" ejs-for="DESCRIPTION" cssClass="e-outline text-left inputable" placeholder="Subject..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="mx-0 row bprder border-bottom" style="min-height:200px;">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Particular</label>
+            <div class="col-sm-10 pe-0 py-1">
+                <ejs-richtexteditor id="rteRemark" height="192" ejs-for="PARTICULAR" enableResize="true" actionBegin="handleFullScreen" showCharCount="true" maxLength="2000">
+                    <e-richtexteditor-toolbarsettings type="Expand" enableFloating="true" items="@CommonSettingData.getBasicRichTextEditorItemLists()"></e-richtexteditor-toolbarsettings>
+                </ejs-richtexteditor>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Sub Amount</label>
+            <div class="col-sm-4 d-flex align-self-center">
+                <div class="col-4 pe-1">
+                    <ejs-dropdownlist id="dlCurrnecyType" ejs-for="CURRENCY" dataSource="@CommonSettingData.GetCurrencyType()" cssClass="inputable text-end" placeholder="Select Currency...">
+                        <e-dropdownlist-fields text="Text" value="Value"></e-dropdownlist-fields>
+                    </ejs-dropdownlist>
+                </div>
+                <div class="col-8">
+                    <ejs-numerictextbox id="txtSubAmount" format="###,####,####,####" ejs-for="SUB_AMOUNT" min="0" cssClass="e-outline text-left inputable" placeholder="Sub Amount..." required></ejs-numerictextbox>
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Quantity</label>
+            <div class="col-sm-4 pe-0 d-flex align-self-center">
+                <div class="col-8 pe-1">
+                    <ejs-numerictextbox id="txtQuantity" format="###,####,####,####" ejs-for="QUANTITY" min="0" cssClass="e-outline text-left inputable" placeholder="Quantity..." required></ejs-numerictextbox>
+                </div>
+                <div class="col-4">
+                    <ejs-dropdownlist id="ddlUnit" ejs-for="UNIT" dataSource="@CommonSettingData.GetUnit()" cssClass="inputable text-end" placeholder="Select Unit...">
+                        <e-dropdownlist-fields text="Text" value="Value"></e-dropdownlist-fields>
+                    </ejs-dropdownlist>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end my-3">
+            <div class="ps-1">
+                <button asp-controller="PmsWorkIdManagement" asp-action="Create" id="btnSave" class="btn btn-primary btn-medium rounded-pill waves-effect waves-light" type="submit">SAVE</button>
+            </div>
+            <div class="ps-1">
+                <a asp-controller="PmsWorkIdManagement" asp-action="Index" id="btnList" class="btn btn-primary btn-medium rounded-pill waves-effect waves-light">LIST</a>
+            </div>
+        </div>
+    </form>
+    <script>
+        function OnAutoComplateProjectIdChange(args) {
+            if (args.value != null && args.value.length >= 2) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetProjectId")",
+                    data: { "_projectID": args.value },
+                    success: function (response) {
+                        $("#txtProjectTitle").val(response.PROJECT_TITLE);
+                        $("#txtProjectIdx").val(response.PROJECT_IDX);
+                        $("#txtSurveyorPM").val(response.USRE_NAME_EN);
+                        $("#txtTermOfContract").val(response.TermOfContract);
+                        $("#txtProjectType").val(response.PROJECT_TYPE);
+                        $("#txtContractAmount").val(response.CURRENCY_SYMBOL + response.PROJECT_TOTAL_AMOUNT.toLocaleString("ko-KR"));
+
+                        //Project Cagtegory
+                        var ProjectCategory = document.getElementById('dlProjectCagegory').ej2_instances[0];
+                        ProjectCategory.enabled = true;
+                        ProjectCategory.cssClass = "inputable";
+                        var tempQuery = new ej.data.Query().where('Category', 'equal', response.PROJECT_TYPE);
+                        ProjectCategory.query = tempQuery;
+                        ProjectCategory.text = null;
+                        ProjectCategory.dataBind();
+
+                    },
+                    error: function (req, status, error) {
+                    }
+                });
+            }
+        }
+
+        function OnAutoComplateJobIdChange(args) {
+            if (args.value != null && args.value.length >= 2) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetJotId")",
+                    data: { "_jobId": args.value },
+                    success: function (response) {
+                        $("#txtJobIdx").val(response.JOB_IDX);
+                        $("#txtVesselName").val(response.VESSEL_NAME);
+                        $("#txtVesselType").val(response.VESSEL_TYPE);
+                        $("#txtVesselTypeName").val(response.VESSEL_TYPE_NAME);
+                        $("#txtJobCategoryName").val(response.JOB_CATEGORY_NAME);
+                        $("#txtJobCategory").val(response.JOB_CATEGORY);
+                        $("#txtYardMakerName").val(response.YARD_MAKER_NAME);
+                        $("#txtYardMaker").val(response.YARD_MAKER);
+                        $("#txtVesselName").val(response.VESSEL_NAME);
+                        $("#txtClientName").val(response.CLIENT_NAME);
+                        $("#txtClient").val(response.CLIENT);
+                        $("#txtHullNo").val(response.HULL_NO);
+                    },
+                    error: function (req, status, error) {
+                    }
+                });
+            }
+        }
+
+    </script>
+}
+
+@section Scripts{
+    <script>
+        
+    </script>
+}

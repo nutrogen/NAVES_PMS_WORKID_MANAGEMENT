@@ -1,0 +1,313 @@
+﻿@using NavesPortalforWebWithCoreMvc.Common;
+@using Syncfusion.EJ2
+@using Syncfusion.EJ2.Notifications;
+@model NavesPortalforWebWithCoreMvc.Models.TNAV_WORK
+
+@{
+    ViewBag.PageTitle = "PMS > Work ID Management";
+    ViewBag.PlatformName = "PMS";
+    ViewBag.MenuName = "Work ID Management";
+    ViewBag.FunctionName = "Detail";
+}
+
+@section ContentsSection{
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="ps-2 pageContentTitle">
+            <h3>@ViewBag.MenuName</h3>
+        </div>
+        <div></div>
+    </div>
+
+    <form asp-controller="PmsWorkIdManagement" asp-action="Edit" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Work ID</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" id="txtWorkID" ejs-for="WORK_ID" cssClass="e-outline text-left" disabled></ejs-textbox>
+                <input type="text" id="txtWorkIDX" asp-for="WORK_IDX" class="e-outline text-left d-none" />
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Project ID</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" id="txtProjectId" ejs-for="PROJECT_ID" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Department</label>
+            <div class="col-sm-4">                
+                <ejs-dropdownlist id="ddlDepartment" ejs-for="DEPARTMENT" dataSource="@CommonSettingData.GetDepartmentList()" placeholder="Select department..." enabled="false">
+                    <e-dropdownlist-fields text="Text" value="Value"></e-dropdownlist-fields>
+                </ejs-dropdownlist>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Project Title</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtProjectTitle" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Surveyor(PM)</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtSurveyorPM" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Term of Contract</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtTermOfContract" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Project Type</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtProjectType" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Project Category</label>
+            <div class="col-sm-4">
+                <ejs-dropdownlist id="dlProjectCagegory" dataSource="@ViewBag.ProjectCategory" ejs-for="PROJECT_CATEGORY" enabled="false" cssClass="" placeholder="Search Project ID...">
+                    <e-dropdownlist-fields text="Text" value="Value"></e-dropdownlist-fields>
+                </ejs-dropdownlist>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Contract Amount</label>
+            <div class="col-sm-4">
+                <ejs-numerictextbox id="txtContractAmount" format="C0" cssClass="e-outline text-left" disabled></ejs-numerictextbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom mt-3">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Job ID</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" id="txtJobid" ejs-for="JOB_ID" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+            @*<div class="col-sm-6 ps-0">
+        <ejs-autocomplete id="acJobId" dataSource="@ViewBag.JobId" placeholder="Search JOB ID..." autofill="true" filterType="Contains"
+        cssClass="inputable"
+        highlight="true"
+        suggestionCount="20"
+        minLength="2"
+        popupHeight="300px"
+        popupWidth="600px"
+        headerTemplate="@Html.Raw("<div class=\"row m-2 p-1 fs-5 border-bottom border-2 bg-create-title\"><div class=\"col-4\">Job ID</div><div class=\"col-3\">Vessel Name</div><div class=\"col-3\">Hull No.</div></div>")"
+        itemTemplate="@Html.Raw("<div class=\"row border-bottom border-1\"><div class=\"col-4\">${JOB_ID}</div><div class=\"col-3\">${VESSEL_NAME}</div><div class=\"col-3\">${HULL_NO}</div></div>")"
+        change="OnAutoComplateJobIdChange">
+        <e-autocomplete-fields value="JOB_ID"></e-autocomplete-fields>
+        </ejs-autocomplete>
+        <input type="text" id="txtJobIdx" asp-for="JOB_IDX" Class="e-outline text-left d-none" />
+        </div>*@
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Vessel Type</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtVesselTypeName" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Job Category</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtJobCategoryName" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Yard/Maker</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtYardMakerName" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Vessel Name</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtVesselName" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Client</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtClientName" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Hull No.</label>
+            <div class="col-sm-4">
+                <ejs-textbox type="text" readonly id="txtHullNo" cssClass="e-outline text-left" disabled></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Subject</label>
+            <div class="col-sm-10">
+                <ejs-textbox type="text" id="txtDescription" ejs-for="DESCRIPTION" cssClass="e-outline text-left inputable" placeholder="Subject..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="mx-0 row bprder border-bottom" style="min-height:200px;">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Particular</label>
+            <div class="col-sm-10 align-self-center py-1">
+                <ejs-richtexteditor id="rteRemark" ejs-for="PARTICULAR" enableResize="true" actionBegin="handleFullScreen" showCharCount="true" maxLength="2000">
+                    <e-richtexteditor-toolbarsettings type="Expand" enableFloating="true" items="@CommonSettingData.getBasicRichTextEditorItemLists()"></e-richtexteditor-toolbarsettings>
+                </ejs-richtexteditor>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row bprder border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Sub Amount</label>
+            <div class="col-sm-4 d-flex align-self-center">
+                <div class="col-4 pe-1">
+                    <ejs-dropdownlist id="dlCurrnecyType" ejs-for="CURRENCY" dataSource="@CommonSettingData.GetCurrencyType()" cssClass="inputable text-end" placeholder="Select Currency...">
+                        <e-dropdownlist-fields text="Text" value="Value"></e-dropdownlist-fields>
+                    </ejs-dropdownlist>
+                </div>
+                <div class="col-8">
+                    <ejs-numerictextbox id="txtSubAmount" format="###,####,####,####" ejs-for="SUB_AMOUNT" min="0" cssClass="e-outline text-left inputable" placeholder="Sub Amount..." required></ejs-numerictextbox>
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Quantity</label>
+            <div class="col-sm-4 d-flex align-self-center">
+                <div class="col-8 pe-1">
+                    <ejs-numerictextbox id="txtQuantity" format="###,####,####,####" ejs-for="QUANTITY" min="0" cssClass="e-outline text-left inputable" placeholder="Quantity..." required></ejs-numerictextbox>
+                </div>
+                <div class="col-4">
+                    <ejs-dropdownlist id="ddlUnit" ejs-for="UNIT" dataSource="@CommonSettingData.GetUnit()" cssClass="inputable text-end" placeholder="Select Unit...">
+                        <e-dropdownlist-fields text="Text" value="Value"></e-dropdownlist-fields>
+                    </ejs-dropdownlist>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-2 me-1">
+            <div class="float-start row g-0">
+                <div class="col-auto pe-2">
+                    <a id="btnShowLog" class="btn btn-success btn-medium rounded-pill waves-effect waves-light" style="width:120px;" onclick="ShowLogList()">Show Log</a>
+                </div>
+                <div class="col-auto pe-2">
+                </div>
+                <div class="col-auto">
+                </div>
+            </div>
+            <div class="float-end row g-0">
+                <div class="col-auto pe-2">
+                </div>
+                <div class="col-auto pe-2">
+                    <button asp-controller="PmsWorkIdManagement" asp-action="Edit" id="btnSave" class="btn btn-primary btn-medium rounded-pill waves-effect waves-light" type="submit">SAVE</button>
+                </div>
+                <div class="col-auto">
+                    <a asp-controller="PmsWorkIdManagement" asp-action="Index" id="btnList" class="btn btn-primary btn-medium rounded-pill waves-effect waves-light">LIST</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script>
+
+        function OnAutoComplateProjectIdChange(args) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetProjectId")",
+                data: { "_projectID": args.value },
+                success: function (response) {
+                    $("#txtProjectTitle").val(response.PROJECT_TITLE);
+                    $("#txtProjectIdx").val(response.PROJECT_IDX);
+                    $("#txtSurveyorPM").val(response.USRE_NAME_EN);
+                    $("#txtTermOfContract").val(response.TermOfContract);
+                    $("#txtProjectType").val(response.PROJECT_TYPE);
+                    $("#txtContractAmount").val(response.CURRENCY_SYMBOL + response.PROJECT_TOTAL_AMOUNT.toLocaleString("ko-KR"));
+
+                    //Project Cagtegory
+                    var ProjectCategory = document.getElementById('dlProjectCagegory').ej2_instances[0];
+                    ProjectCategory.enabled = true;
+                    ProjectCategory.cssClass = "inputable";
+                    var tempQuery = new ej.data.Query().where('Category', 'equal', response.PROJECT_TYPE);
+                    ProjectCategory.query = tempQuery;
+                    ProjectCategory.text = null;
+                    ProjectCategory.dataBind();
+
+                },
+                error: function (req, status, error) {
+                }
+            });
+        }
+
+        function OnAutoComplateJobIdChange(args) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetJotId")",
+                data: { "_jobId": args.value },
+                success: function (response) {
+                    $("#txtJobIdx").val(response.JOB_IDX);
+                    $("#txtVesselName").val(response.VESSEL_NAME);
+                    $("#txtVesselType").val(response.VESSEL_TYPE);
+                    $("#txtVesselTypeName").val(response.VESSEL_TYPE_NAME);
+                    $("#txtJobCategoryName").val(response.JOB_CATEGORY_NAME);
+                    $("#txtJobCategory").val(response.JOB_CATEGORY);
+                    $("#txtYardMakerName").val(response.YARD_MAKER_NAME);
+                    $("#txtYardMaker").val(response.YARD_MAKER);
+                    $("#txtVesselName").val(response.VESSEL_NAME);
+                    $("#txtClientName").val(response.CLIENT_NAME);
+                    $("#txtClient").val(response.CLIENT);
+                    $("#txtHullNo").val(response.HULL_NO);
+                },
+                error: function (req, status, error) {
+                }
+            });
+        }
+
+    </script>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var ProjectIdvalue = $("#txtProjectId").val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetProjectId")",
+                data: { "_projectID": ProjectIdvalue },
+                success: function (response) {
+                    $("#txtProjectTitle").val(response.PROJECT_TITLE);
+                    $("#txtProjectIdx").val(response.PROJECT_IDX);
+                    $("#txtSurveyorPM").val(response.USRE_NAME_EN);
+                    $("#txtTermOfContract").val(response.TermOfContract);
+                    $("#txtProjectType").val(response.PROJECT_TYPE);
+                    $("#txtContractAmount").val(response.CURRENCY_SYMBOL + response.PROJECT_TOTAL_AMOUNT.toLocaleString("ko-KR"));
+                },
+                error: function (req, status, error) {
+                }
+            });
+
+            var txtJobidvalue = $("#txtJobid").val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetJotId")",
+                data: { "_jobId": txtJobidvalue },
+                success: function (response) {
+                    $("#txtJobIdx").val(response.JOB_IDX);
+                    $("#txtVesselName").val(response.VESSEL_NAME);
+                    $("#txtVesselType").val(response.VESSEL_TYPE);
+                    $("#txtVesselTypeName").val(response.VESSEL_TYPE_NAME);
+                    $("#txtJobCategoryName").val(response.JOB_CATEGORY_NAME);
+                    $("#txtJobCategory").val(response.JOB_CATEGORY);
+                    $("#txtYardMakerName").val(response.YARD_MAKER_NAME);
+                    $("#txtYardMaker").val(response.YARD_MAKER);
+                    $("#txtVesselName").val(response.VESSEL_NAME);
+                    $("#txtClientName").val(response.CLIENT_NAME);
+                    $("#txtClient").val(response.CLIENT);
+                    $("#txtHullNo").val(response.HULL_NO);
+                },
+                error: function (req, status, error) {
+                }
+            });
+        });
+
+        // Show Log Button
+        $("#btnShowLog").click(function () {
+            var W = (screen.availWidth * 0.5);
+            var H = 750;
+
+            var popupX = (screen.availWidth / 2) - (W / 2);
+            var popupY = (screen.availHeight / 2) - (H / 2);
+
+            var opt = "status=no,width=" + W + "px, height=" + H + "px, left=" + popupX + ", top=" + popupY + ",scrollbars=yes";
+            var popup = window.open('@Url.Action("ShowLog", "Common", new{id = Model.WORK_IDX, platform = "PMS"})', 'LogList', opt);
+
+            popup.opener = window;
+            popup.focus();
+        });
+    </script>
+}
